@@ -42,8 +42,9 @@ resource "azurerm_lb" "test" {
   resource_group_name = azurerm_resource_group.rg.name
 
   frontend_ip_configuration {
-    name                 = "publicIPAddress"
-    public_ip_address_id = azurerm_public_ip.test.id
+    name                 = "internalLoadBalancer"
+    subnet_id = azurerm_subnet.test.id
+    private_ip_address_allocation = "Dynamic"
   }
 }
 
