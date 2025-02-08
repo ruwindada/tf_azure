@@ -95,11 +95,11 @@ resource "azurerm_linux_virtual_machine" "test" {
   # delete_data_disks_on_termination = true
 
   source_image_reference {
-    publisher = "rockylinux"
-    offer     = "rocky-linux-9"
-    sku       = "9_4"
-    version   = "latest"
-  }
+  publisher = "RedHat"
+  offer     = "RHEL"
+  sku       = "8_4"
+  version   = "latest"
+}
 
   admin_ssh_key {
     username   = var.username
