@@ -115,13 +115,7 @@ resource "azurerm_linux_virtual_machine" "test" {
   computer_name  = "hostname"
   admin_username = var.username
 
-  custom_data = <<-EOF
-              #!/bin/bash
-              sudo dnf install -y httpd
-              sudo systemctl enable httpd
-              sudo systemctl start httpd
-              echo "<html><body><h1>Welcome to Rocky Linux 9.4</h1></body></html>" | sudo tee /var/www/html/index.html
-              EOF
+  custom_data = "IyEvYmluL2Jhc2gKc3VkbyBkbmYgaW5zdGFsbCAteSBodHRwZApzdWRvIHN5c3RlbWN0bCBlbmFibGUgaHR0cGQKc3VkbyBzeXN0ZW1jdGwgc3RhcnQgaHR0cGQKZWNobyAiPGh0bWw+PGJvZHk+PGgxPldlbGNvbWUgdG8gUm9ja3kgTGludXggOS40PC9oMT48L2JvZHk+PC9odG1sPiIgfCBzdWRvIHRlZSAvdmFyL3d3dy9odG1sL2luZGV4Lmh0bWwK"
 }
 
 resource "azurerm_managed_disk" "test" {
