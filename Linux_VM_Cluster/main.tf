@@ -95,9 +95,9 @@ resource "azurerm_linux_virtual_machine" "test" {
   # delete_data_disks_on_termination = true
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    publisher = "rockylinux"
+    offer     = "rocky-linux-9"
+    sku       = "9_4"
     version   = "latest"
   }
 
@@ -114,6 +114,14 @@ resource "azurerm_linux_virtual_machine" "test" {
 
   computer_name  = "hostname"
   admin_username = var.username
+
+  custom_data = <<-EOF
+              #!/bin/bash
+              sudo dnf install -y httpd
+              sudo systemctl enable httpd
+              sudo systemctl start httpd
+              echo "<html><body><h1>Welcome to Rocky Linux 9.4</h1></body></html>" | sudo tee /var/www/html/index.html
+              EOF
 }
 
 resource "azurerm_managed_disk" "test" {
