@@ -97,7 +97,7 @@ resource "azurerm_linux_virtual_machine" "test" {
   source_image_reference {
     publisher = "rockylinux"
     offer     = "rocky-linux-9"
-    sku       = "9"
+    sku       = "9_4"
     version   = "latest"
   }
 
