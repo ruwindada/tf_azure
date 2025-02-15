@@ -1,15 +1,12 @@
-output "resource_group_name" {
-  value = azurerm_resource_group.rg.name
+output "public_ip" {
+  value = azurerm_public_ip.test.ip_address
 }
 
-output "virtual_network_name" {
-  value = azurerm_virtual_network.test.name
+output "vm_ids" {
+  value = azurerm_linux_virtual_machine.test[*].id
 }
 
-output "subnet_name" {
-  value = azurerm_subnet.test.name
-}
-
-output "linux_virtual_machine_names" {
-  value = [for s in azurerm_linux_virtual_machine.test : s.name[*]]
+output "private_key" {
+  value     = azapi_resource_action.ssh_public_key_gen.output.privateKey
+  sensitive = true
 }
