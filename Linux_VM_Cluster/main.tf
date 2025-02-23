@@ -63,6 +63,24 @@ resource "azurerm_lb_backend_address_pool" "test" {
   name            = "BackEndAddressPool"
 }
 
+resource "azurerm_lb_probe" "ssh" {
+  name            = "ssh-probe"
+  loadbalancer_id = azurerm_lb.test.id
+  protocol        = "Tcp"
+  port            = 22
+}
+
+resource "azurerm_lb_rule" "ssh" {
+  name                           = "ssh-rule"
+  loadbalancer_id                = azurerm_lb.test.id
+  frontend_ip_configuration_name = azurerm_lb.test.frontend_ip_configuration[0].name
+  backend_address_pool_ids        = azurerm_lb_backend_address_pool.test.id
+  probe_id                       = azurerm_lb_probe.ssh.id
+  protocol                       = "Tcp"
+  frontend_port                  = 22
+  backend_port                   = 22
+}
+
 resource "azurerm_network_interface" "test" {
   count               = 2
   name                = "acctni${count.index}"
@@ -73,6 +91,7 @@ resource "azurerm_network_interface" "test" {
     name                          = "testConfiguration"
     subnet_id                     = azurerm_subnet.test.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.test.id
   }
 }
 
