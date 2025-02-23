@@ -81,6 +81,14 @@ resource "azurerm_lb_probe" "ssh" {
   port            = 22
 }
 
+resource "azurerm_lb_probe" "http" {
+  name            = "http-probe"
+  loadbalancer_id = azurerm_lb.test.id
+  protocol        = "Http"
+  port            = 80
+  request_path    = "/"
+}
+
 resource "azurerm_lb_rule" "ssh" {
   name                           = "ssh-rule"
   loadbalancer_id                = azurerm_lb.test.id
@@ -90,6 +98,17 @@ resource "azurerm_lb_rule" "ssh" {
   protocol                       = "Tcp"
   frontend_port                  = 22
   backend_port                   = 22
+}
+
+resource "azurerm_lb_rule" "http" {
+  name                           = "http-rule"
+  loadbalancer_id                = azurerm_lb.test.id
+  frontend_ip_configuration_name = azurerm_lb.test.frontend_ip_configuration[0].name
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.test.id]
+  probe_id                       = azurerm_lb_probe.http.id
+  protocol                       = "Tcp"
+  frontend_port                  = 80
+  backend_port                   = 80
 }
 
 resource "azurerm_network_interface" "test" {
