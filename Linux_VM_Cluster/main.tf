@@ -74,7 +74,7 @@ resource "azurerm_lb_rule" "ssh" {
   name                           = "ssh-rule"
   loadbalancer_id                = azurerm_lb.test.id
   frontend_ip_configuration_name = azurerm_lb.test.frontend_ip_configuration[0].name
-  backend_address_pool_ids        = azurerm_lb_backend_address_pool.test.id
+  backend_address_pool_ids        = [azurerm_lb_backend_address_pool.test.id]
   probe_id                       = azurerm_lb_probe.ssh.id
   protocol                       = "Tcp"
   frontend_port                  = 22
