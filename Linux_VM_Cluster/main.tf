@@ -86,7 +86,7 @@ resource "azurerm_lb_probe" "http" {
   loadbalancer_id = azurerm_lb.test.id
   protocol        = "Http"
   port            = 80
-  request_path    = "/"
+  request_path    = "/index.html"
 }
 
 resource "azurerm_lb_rule" "ssh" {
