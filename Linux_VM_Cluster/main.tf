@@ -126,6 +126,12 @@ resource "azurerm_linux_virtual_machine" "test" {
     version   = "latest"
   }
 
+  plan {
+    name      = "rocky_linux_8_server"
+    publisher = "dcassociatesgroupinc"
+    product   = "rocky_linux_8_vm"
+  }
+
   admin_ssh_key {
     username   = var.username
     public_key = azapi_resource_action.ssh_public_key_gen.output.publicKey
