@@ -140,7 +140,22 @@ resource "azurerm_linux_virtual_machine" "test" {
   computer_name  = "hostname"
   admin_username = var.username
 
-  custom_data = "IyEvYmluL2Jhc2gKI0luc3RhbGwgYW5kIGVuYWJsZSBodHRwZApzdWRvIGRuZiBpbnN0YWxsIC15IGh0dHBkCnN1ZG8gc3lzdGVtY3RsIGVuYWJsZSBodHRwZApzdWRvIHN5c3RlbWN0bCBzdGFydCBodHRwZAoKI0Vuc3VyZSBzc2hkIGlzIGluc3RhbGxlZCwgZW5hYmxlZCwgYW5kIHN0YXJ0ZWQKc3VkbyBkbmYgaW5zdGFsbCAteSBvcGVuc3NoLXNlcnZlcgpzdWRvIHN5c3RlbWN0bCBlbmFibGUgc3NoZApzdWRvIHN5c3RlbWN0bCBzdGFydCBzc2hkCmVjaG8gIjxodG1sPjxib2R5PjxoMT5XZWxjb21lIHRvIFJvY2t5IExpbnV4IDkuNDwvaDE+PC9ib2R5PjwvaHRtbD4iIHwgc3VkbyB0ZWUgL3Zhci93d3cvaHRtbC9pbmRleC5odG1s"
+  custom_data = base64encode(<<-EOT
+    #!/bin/bash
+    # Install and enable httpd
+    sudo dnf install -y httpd
+    sudo systemctl enable httpd
+    sudo systemctl start httpd
+
+    # Ensure sshd is installed, enabled, and started
+    sudo dnf install -y openssh-server
+    sudo systemctl enable sshd
+    sudo systemctl start sshd
+
+    # Create a simple HTML file
+    echo '<html><body><h1>Welcome to Rocky Linux 9.4</h1></body></html>' | sudo tee /var/www/html/index.html
+    EOT
+  )
 }
 
 resource "azurerm_managed_disk" "test" {
