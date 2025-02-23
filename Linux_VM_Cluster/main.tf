@@ -120,9 +120,9 @@ resource "azurerm_linux_virtual_machine" "test" {
   size                  = "Standard_DS1_v2"
 
   source_image_reference {
-    publisher = "RedHat"
-    offer     = "RHEL"
-    sku       = "8_4"
+    publisher = "dcassociatesgroupinc"
+    offer     = "rocky_linux_8_vm"
+    sku       = "rocky_linux_8_server"
     version   = "latest"
   }
 
