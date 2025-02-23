@@ -74,7 +74,7 @@ resource "azurerm_lb_rule" "ssh" {
   name                           = "ssh-rule"
   loadbalancer_id                = azurerm_lb.test.id
   frontend_ip_configuration_name = azurerm_lb.test.frontend_ip_configuration[0].name
-  backend_address_pool_ids        = [azurerm_lb_backend_address_pool.test.id]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.test.id]
   probe_id                       = azurerm_lb_probe.ssh.id
   protocol                       = "Tcp"
   frontend_port                  = 22
@@ -91,8 +91,14 @@ resource "azurerm_network_interface" "test" {
     name                          = "testConfiguration"
     subnet_id                     = azurerm_subnet.test.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.test.id
   }
+}
+
+resource "azurerm_network_interface_backend_address_pool_association" "test" {
+  count                     = 2
+  network_interface_id      = azurerm_network_interface.test[count.index].id
+  ip_configuration_name     = "testConfiguration"
+  backend_address_pool_id   = azurerm_lb_backend_address_pool.test.id
 }
 
 resource "azurerm_availability_set" "avset" {
