@@ -71,6 +71,7 @@ The custom script is defined in the `custom_data` attribute of the `azurerm_linu
 ```terraform
 custom_data = <<-EOF
   #!/bin/bash
+  
   # Install and enable httpd
   sudo dnf install -y httpd
   sudo systemctl enable httpd
@@ -82,7 +83,7 @@ custom_data = <<-EOF
   sudo systemctl start sshd
 
   # Create a simple HTML file
-  echo '<html><body><h1>Welcome to Rocky Linux 9.4</h1><p>Hostname: $(hostname)</p></body></html>' | sudo tee /var/www/html/index.html
+  echo '<html><body><h1>Welcome to Rocky Linux 9.4</h1></body></html>' | sudo tee /var/www/html/index.html
 EOF
 
 Cleanup
