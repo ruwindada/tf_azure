@@ -200,6 +200,9 @@ resource "azurerm_linux_virtual_machine" "test" {
 
   custom_data = base64encode(<<-EOT
     #!/bin/bash
+    # Set the hostname
+    sudo hostnamectl set-hostname azvm${count.index}
+
     # Install and enable httpd
     sudo dnf install -y httpd
     sudo systemctl enable httpd
