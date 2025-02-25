@@ -217,7 +217,7 @@ resource "azurerm_linux_virtual_machine" "test" {
     HOSTNAME=$(hostname)
 
     # Create a simple HTML file
-    echo '<html><body><h1>Welcome to Rocky Linux 9.4</h1><p>Hostname: ${HOSTNAME}</p></body></html>' | sudo tee /var/www/html/index.html
+    echo '<html><body><h1>Welcome to Rocky Linux 9.4</h1><p>Hostname: $${HOSTNAME}</p></body></html>' | sudo tee /var/www/html/index.html
     EOT
   )
 }
