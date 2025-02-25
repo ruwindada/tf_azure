@@ -33,14 +33,30 @@ This project provides a Terraform configuration to deploy a cluster of Linux vir
 
 5. Confirm the apply action with `yes`.
 
+6. Retrieve the public IP address of the load balancer:
+    ```sh
+    terraform output public_ip
+    ```
+
+7. Access the web server:
+    Open a web browser and navigate to the public IP address retrieved in the previous step:
+    ```
+    http://<public_ip>
+    ```
+
+    You should see a web page displaying "Welcome to Rocky Linux 9.4" and the hostname of the VM.
+
 ## Resources Created
 
 - A resource group
 - A virtual network
 - Subnets
-- Network security groups
+- Network security groups with rules for SSH, HTTP, HTTPS, and Azure Load Balancer traffic
 - Public IP addresses
+- Load balancer with backend pool, probes, and rules for SSH and HTTP
+- Availability set
 - Linux virtual machines
+- Managed disks and data disk attachments
 
 ## Custom Script
 
@@ -66,21 +82,16 @@ custom_data = <<-EOF
   sudo systemctl start sshd
 
   # Create a simple HTML file
-  echo "<html><body><h1>Welcome to Rocky Linux 9.4</h1></body></html>" | sudo tee /var/www/html/index.html
+  echo '<html><body><h1>Welcome to Rocky Linux 9.4</h1><p>Hostname: $(hostname)</p></body></html>' | sudo tee /var/www/html/index.html
 EOF
-```
 
-## Cleanup
-
+Cleanup
 To destroy the resources created by this Terraform configuration, run:
-```sh
-terraform destroy
-```
 
-## Contributing
-
+Contributing
 Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
 
-## License
-
+License
 This project is licensed under the MIT License.
+
+This `README.md` provides an overview of the Terraform configuration, usage instructions, and details about the resources created. It also includes the custom data script used to configure the VMs and instructions for accessing the web server and cleaning up the resources.
