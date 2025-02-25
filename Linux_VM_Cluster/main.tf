@@ -46,7 +46,7 @@ resource "azurerm_network_security_group" "nsg" {
   }
   security_rule {
     name                       = "allow_http"
-    priority                   = 1002
+    priority                   = 1003
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
@@ -57,7 +57,7 @@ resource "azurerm_network_security_group" "nsg" {
   }
   security_rule {
     name                       = "allow_lb"
-    priority                   = 1003
+    priority                   = 1004
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "*"
