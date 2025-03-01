@@ -73,12 +73,12 @@ resource "azurerm_subnet_network_security_group_association" "example" {
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-resource "azurerm_public_ip" "test" {
-  name                = "publicIPForLB"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-}
+# resource "azurerm_public_ip" "test" {
+#   name                = "publicIPForLB"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+#   allocation_method   = "Static"
+# }
 
 resource "azurerm_lb" "test" {
   name                = "loadBalancer"
@@ -87,7 +87,10 @@ resource "azurerm_lb" "test" {
 
   frontend_ip_configuration {
     name                 = "internalLoadBalancer"
-    public_ip_address_id = azurerm_public_ip.test.id
+    #public_ip_address_id = azurerm_public_ip.test.id
+    #public_ip_address_id = azurerm_public_ip.test.id
+    subnet_id = azurerm_subnet.test.id
+    private_ip_address_allocation = "Dynamic"
   }
 }
 
